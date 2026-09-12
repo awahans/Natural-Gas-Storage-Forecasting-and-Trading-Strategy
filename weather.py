@@ -18,7 +18,7 @@ STATIONS = {
     "Atlanta": "GHCND:USW00013874"
 }
 
-def get_weather_data(station_id, start="2010-01-01", end="2026-05-01"):
+def get_weather_data(station_id, start="2010-01-01", end="2026-09-10"):
     url = "https://www.ncdc.noaa.gov/cdo-web/api/v2/data"
     headers = {"token": TOKEN} #NOAA API requires a token in the header
     all_data = []
@@ -82,6 +82,10 @@ def get_weekly_degree_days():
     return weekly
 
 if __name__ == "__main__":
+    temperatures = get_all_weather_data()
+    temperatures.to_csv("temperatures.csv", index=False)
+    print(f"Saved temperatures.csv ({len(temperatures)} rows, {temperatures['date'].min().date()} to {temperatures['date'].max().date()})")
+
     weekly = get_weekly_degree_days()
     print(weekly.head())
     weekly.to_csv("weekly_degree_days.csv", index=False)
